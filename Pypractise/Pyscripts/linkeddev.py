@@ -1,4 +1,4 @@
-# a script to extract only devops related posts from LinkedIn
+# a script to open LinkedIn posts 
 import webbrowser
 import re 
 import urllib2
