@@ -1,8 +1,8 @@
+# A script to Load my favorite video using Safari Browser
 from pytz import timezone
 import pytz
 import webbrowser
 import urllib
-from flask import Flask
 
 from datetime import datetime
 from time import strftime
@@ -13,6 +13,3 @@ webbrowser.get('safari').open_new(videourl)
 blog=1
 burl="https://medium.com/topic/technology"
 webbrowser.open_new_tab(burl)
-
-temp=1;
-turl="https://www.accuweather.com/en/us/"
