@@ -9,7 +9,7 @@ elif typeofop == "s":
     x=int(raw_input("Enter the first number: "))
     y=int(raw_input("Enter the second number:"))
     print x - y
-elif typeofop == "m":
+elif typeofop == "m":     
    x=int(raw_input("Enter the first number: "))
    y=int(raw_input("Enter the second number:"))
    print x * y

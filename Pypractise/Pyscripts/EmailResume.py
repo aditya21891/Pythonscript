@@ -1,42 +1,40 @@
-import smtplib,os
 
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.utils import getaddresses
-from email.utils import COMMASPACE,formatdate
-from email.MIMEBase import MIMEBase
-from email import encoders
+from email.headerregistry import Address
+from email.message import EmailMessage
+import os
+import smtplib
 
-sa="adityapratti01@gmail.com"
-ta="Sai@galaxyitech.com"" 
+# Gmail details
+email_address = os.getenv('EMAIL_ADDRESS')
+email_password = os.getenv('EMAIL_PASSWORD')
 
-# content of email
-text = "Hi Sai! \n Thank you \n Have a good day\n"
+# Recipent
+to_address = (
+    Address(display_name='Daily update', username='rishita1019', domain='gmail.com'),
+)
 
-uname="adityapratti01"
-pwd='*********'
 
-msg=MIMEMultipart()
-msg['From']=sa
-msg['To']=ta
-msg['Subject']='Message for Sai'
-part1 = MIMEText(text, 'plain')
-msg.attach(part1)
+def create_email_message(from_address, to_address, subject, body):
+    msg = EmailMessage()
+    msg['From'] = from_address
+    msg['To'] = to_address
+    msg['Subject'] = subject
+    msg.set_content(body)
+    return msg
 
-file= "raw.txt"
-attachment=open("/Users/adityapratti/Desktop/mypyscript/python/raw.txt", "rb")
-part=MIMEBase('application', 'octet-stream')
-part.set_payload((attachment).read())
-encoders.encode_base64(part)
-part.add_header('Content-Disposition','attachment;filename= %s'% os.path.basename(file))
-        
 
-srvr=smtplib.SMTP('smtp.gmail.com:587')
-srvr.ehlo()
-srvr.starttls()
-srvr.ehlo()
+if __name__ == '__main__':
+    msg = create_email_message(
+        from_address=email_address,
+        to_address=to_address,
+        subject='Daily tasks',
+        body="Let me know what you did today using Python and Linux, I want every day mail of your daily updates",
+    )
 
-srvr.login(uname,pwd)
-srvr.sendmail(sa,ta,msg.as_string())
-srvr.quit()
+    with smtplib.SMTP('smtp.gmail.com', port=587) as smtp_server:
+        smtp_server.ehlo()
+        smtp_server.starttls()
+        smtp_server.login(email_address, email_password)
+        smtp_server.send_message(msg)
 
+    print('Email sent successfully')
